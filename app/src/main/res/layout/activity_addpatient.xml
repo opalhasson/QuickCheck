@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".AddPatientActivity">
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Patient"
+        android:textSize="20sp"
+        android:layout_marginBottom="32dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/first_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_text"
+        android:inputType="text"
+        android:hint="First Name" />
+
+    <EditText
+        android:id="@+id/last_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first_name_field"
+        android:inputType="text"
+        android:hint="Last Name"
+        android:layout_marginTop="16dp"/>
+
+    <Spinner
+        android:id="@+id/gender_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/last_name_field"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/id_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gender_spinner"
+        android:inputType="number"
+        android:layout_marginTop="16dp"
+        android:hint="ID" />
+
+    <EditText
+        android:id="@+id/dob_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_field"
+        android:inputType="none"
+        android:layout_marginTop="16dp"
+        android:hint="Date of Birth"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:onClick="openDatePicker" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Patient"
+        android:layout_below="@id/dob_field"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
+
+</RelativeLayout>
