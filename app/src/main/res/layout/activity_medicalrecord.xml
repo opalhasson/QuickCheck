@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".PatientScreenActivity">
+    tools:context=".MedicalRecordActivity">
 
     <TextView
         android:id="@+id/patient_name_text"

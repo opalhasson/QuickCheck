@@ -1,0 +1,111 @@
+package com.example.quickcheck;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.quickcheck.Patient;
+import com.example.quickcheck.R;
+
+import java.util.ArrayList;
+
+public class PatientAdapter extends ArrayAdapter<Patient> {
+
+    private Context context;
+    private int resource;
+    private ArrayList<Patient> patients;
+
+    public PatientAdapter(Context context, int resource, ArrayList<Patient> patients) {
+        super(context, resource, patients);
+        this.context = context;
+        this.resource = resource;
+        this.patients = patients;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(resource, null);
+        }
+
+        // Get the current patient object from the ArrayList
+        Patient patient = patients.get(position);
+
+        // Update the view with the patient data
+        TextView patientNameTextView = view.findViewById(R.id.patient_name_text);
+        TextView patientIdTextView = view.findViewById(R.id.patient_id_text);
+        ImageView patientImageView = view.findViewById(R.id.patient_im);
+
+        patientNameTextView.setText(patient.getFirstname() + " " + patient.getLastname());
+        patientIdTextView.setText(String.valueOf(patient.getId()));
+        if (patient.getGender().equalsIgnoreCase("female"))
+            patientImageView.setImageResource(R.drawable.ic_female);
+        if (patient.getGender().equalsIgnoreCase("other"))
+            patientImageView.setImageResource(R.drawable.ic_g);
+
+        return view;
+    }
+}
+
+
+
+
+
+//package com.example.quickcheck;
+//
+//import static android.content.ContentValues.TAG;
+//
+//import android.content.Context;
+//import android.util.Log;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.widget.ArrayAdapter;
+//import android.widget.TextView;
+//import androidx.annotation.NonNull;
+//import androidx.annotation.Nullable;
+//
+//import java.util.ArrayList;
+//
+//public class PatientAdapter extends ArrayAdapter<Patient> {
+//    private ArrayList<Patient> patients;
+//
+//    public PatientAdapter(@NonNull Context context, int resource, ArrayList<Patient> patients) {
+//        super(context, resource);
+//        this.patients = patients;
+//        Log.i(TAG, "PatientAdapter: " + patients.get(1).getFirstname() + " " + patients.size());
+//
+//
+//
+//    }
+//    // ...
+//
+//    @NonNull
+//    @Override
+//    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//        if (convertView == null) {
+//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_patient, parent, false);
+//        }
+//
+//        // Get the current patient object
+//        Patient patient = patients.get(position);
+//        Log.i(TAG, "getView: " + patient.getFirstname());
+//
+//        // Get references to the TextViews in the item layout
+//        TextView nameTextView = convertView.findViewById(R.id.patient_name_text);
+//        TextView idTextView = convertView.findViewById(R.id.patient_id_text);
+//
+//        // Set the name and ID values for the TextViews
+//        nameTextView.setText(patient.getFirstname() + " " + patient.getLastname());
+//        idTextView.setText("ID: " + patient.getId());
+//
+//        return convertView;
+//    }
+//}

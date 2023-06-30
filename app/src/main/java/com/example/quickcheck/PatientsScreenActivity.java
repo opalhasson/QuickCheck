@@ -3,8 +3,9 @@ package com.example.quickcheck;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,11 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class PatientsScreenActivity extends AppCompatActivity {
 
     private TextView userName;
     private TextView unitName;
     private ListView patientsList;
+    private PatientAdapter patientAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,36 @@ public class PatientsScreenActivity extends AppCompatActivity {
 
 
         }
+
+        // Set the adapter to the ListView
+        //patientsList.setAdapter(patientAdapter);
+
+        // Assuming you have a collection called "patients" in your Firestore database
+        CollectionReference patientsCollection = FirebaseFirestore.getInstance().collection("patients");
+
+        // Perform the query to get all patients from the collection
+        patientsCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            // Create a new ArrayList to hold the retrieved patients
+            ArrayList<Patient> patients = new ArrayList<>();
+
+            // Iterate through the query results and convert each document to a Patient object
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                Patient patient = documentSnapshot.toObject(Patient.class);
+                patients.add(patient);
+            }
+            Log.i(TAG, "onCreate: " + patients.get(0).getLastname() + " " + patients.size());
+
+            // Create a new instance of the PatientAdapter and pass in the patients ArrayList
+            patientAdapter = new PatientAdapter(PatientsScreenActivity.this, R.layout.list_item_patient, patients);
+
+            // Set the adapter to the ListView
+            patientsList.setAdapter(patientAdapter);
+
+        }).addOnFailureListener(e -> {
+            // Error occurred while querying for patients
+            Log.e(TAG, "Error retrieving patients: " + e.getMessage());
+        });
+
 
         // Find the "Add Patient" button in the layout
         Button addPatientButton = findViewById(R.id.add_user_button);

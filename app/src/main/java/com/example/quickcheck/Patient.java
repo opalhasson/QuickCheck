@@ -8,7 +8,7 @@ public class Patient {
     private String dob;
     private String gender;
 
-
+    public Patient(){}
     public Patient(String firstname, String lastname, String id, String dob, String gender) {
         this.firstname = firstname;
         this.lastname = lastname;

@@ -28,7 +28,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".PatientScreenActivity"
+            android:name=".MedicalRecordActivity"
             android:exported="true" />
 
         <activity
