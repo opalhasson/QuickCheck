@@ -158,7 +158,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     Toast.makeText(AddPatientActivity.this, "Patient was add successfully.",
                             Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(this, PatientsScreenActivity.class);
                     startActivity(intent);
                 })
                 .addOnFailureListener(e -> {

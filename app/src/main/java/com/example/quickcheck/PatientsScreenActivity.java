@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -109,7 +110,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
 
 
         // Find the "Add Patient" button in the layout
-        Button addPatientButton = findViewById(R.id.add_user_button);
+        ImageButton addPatientButton = findViewById(R.id.add_user_button);
 
         // Set an OnClickListener to the "Add Patient" button
         addPatientButton.setOnClickListener(new View.OnClickListener() {
