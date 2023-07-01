@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -36,6 +37,9 @@ public class AddPatientActivity extends AppCompatActivity {
     private View dialogView;
     private Spinner genderSpinner;
     private Button addButton;
+    private String unitname;
+    private String email;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,40 @@ public class AddPatientActivity extends AppCompatActivity {
         firstnameField = findViewById(R.id.first_name_field);
         lastnameField = findViewById(R.id.last_name_field);
         idField = findViewById(R.id.id_field);
+
+        email = getIntent().getStringExtra("email");
+        if (email != null) {
+            // Get a reference to the Firebase Firestore database
+            db = FirebaseFirestore.getInstance();
+
+            // Assuming you have a collection called "patients" in your Firestore database
+            CollectionReference usersCollection = db.collection("users");
+
+            // Perform the query to get the user document with the specified email
+            usersCollection.whereEqualTo("email", email)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        // Check if the query result contains any documents
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // Get the first document (assuming unique emails) from the query result
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+
+                            // Retrieve the user object from the document snapshot
+                            User user = documentSnapshot.toObject(User.class);
+
+                            unitname = user.getUnit();
+
+                        } else {
+                            // No user found with the specified email
+                            Toast.makeText(AddPatientActivity.this, "User not found.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Error occurred while querying for the user
+                        Log.e(TAG, "Error founding user: " + e.getMessage());
+                    });
+        }
 
         // Set options for gender spinner
         String[] genderOptions = {"Choose your gender","Male", "Female", "Other"};
@@ -128,7 +166,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
     private void addPatient() {
         // Retrieve the input values from the UI fields
-        String firstname = firstnameField.getText().toString();  // Replace with the actual logic to get the name from the appropriate EditText
+        String firstname = firstnameField.getText().toString();
         String lastname = lastnameField.getText().toString();
         String id = idField.getText().toString();
         String dob = dobField.getText().toString();
@@ -137,15 +175,11 @@ public class AddPatientActivity extends AppCompatActivity {
         // Validate the input fields
         if (firstname.isEmpty() || lastname.isEmpty() || id.isEmpty() ||
                 dob.isEmpty() || gender.equals("Choose your gender")) {
-            // Show an error message or perform appropriate validation handling
             return;
         }
 
         // Create a Patient object
         Patient patient = new Patient(firstname, lastname, id, dob, gender);
-
-        // Get a reference to the Firebase Firestore database
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Assuming you have a collection called "patients" in your Firestore database
         CollectionReference patientsCollection = db.collection("patients");
@@ -153,18 +187,22 @@ public class AddPatientActivity extends AppCompatActivity {
         // Add the patient to the "patients" collection
         patientsCollection.add(patient)
                 .addOnSuccessListener(documentReference -> {
-                    // Patient added successfully
-                    String patientId = documentReference.getId();
+                    // Patient added successfully, creating medical record for patient
+                    MedicalRecord medicalRecord = new MedicalRecord(id, unitname);
+                    CollectionReference medicalrecordsCollection = db.collection("medicalRecords");
+
+                    medicalrecordsCollection.add(medicalRecord);
+
                     Toast.makeText(AddPatientActivity.this, "Patient was add successfully.",
                             Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(this, PatientsScreenActivity.class);
+                    intent.putExtra("email", email);
                     startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
                     // Error occurred while adding the patient
                     Log.e(TAG, "Error adding patient: " + e.getMessage());
-                    // Show an error message or perform appropriate error handling
                 });
     }
 

@@ -27,6 +27,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
     private TextView unitName;
     private ListView patientsList;
     private PatientAdapter patientAdapter;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
 
 
         // Retrieve the email from the intent
-        String email = getIntent().getStringExtra("email");
+        email = getIntent().getStringExtra("email");
 
         // Access the user's information if needed
         if (email != null) {
@@ -75,12 +76,8 @@ public class PatientsScreenActivity extends AppCompatActivity {
                         // Error occurred while querying for the user
                         Log.e(TAG, "Error founding user: " + e.getMessage());
                     });
-
-
         }
 
-        // Set the adapter to the ListView
-        //patientsList.setAdapter(patientAdapter);
 
         // Assuming you have a collection called "patients" in your Firestore database
         CollectionReference patientsCollection = FirebaseFirestore.getInstance().collection("patients");
@@ -118,6 +115,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the AddPatientActivity
                 Intent intent = new Intent(PatientsScreenActivity.this, AddPatientActivity.class);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
