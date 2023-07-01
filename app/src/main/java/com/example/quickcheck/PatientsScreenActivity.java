@@ -145,7 +145,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
             }
 
             // Create a new instance of the PatientAdapter and pass in the patients ArrayList
-            patientAdapter = new PatientAdapter(PatientsScreenActivity.this, R.layout.list_item_patient, patients,unitName.getText().toString());
+            patientAdapter = new PatientAdapter(PatientsScreenActivity.this, R.layout.list_item_patient, patients,unitName.getText().toString(), email);
 
             // Set the adapter to the ListView
             patientsList.setAdapter(patientAdapter);

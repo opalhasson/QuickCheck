@@ -16,14 +16,16 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
     private int resource;
     private ArrayList<Patient> patients;
     private String unit;
+    private String email;
 
 
-    public PatientAdapter(Context context, int resource, ArrayList<Patient> patients, String unit) {
+    public PatientAdapter(Context context, int resource, ArrayList<Patient> patients, String unit, String email) {
         super(context, resource, patients);
         this.context = context;
         this.resource = resource;
         this.patients = patients;
         this.unit = unit;
+        this.email = email;
     }
 
     @Override
@@ -52,6 +54,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
                 Intent intent = new Intent(context, MedicalRecordActivity.class);
                 intent.putExtra("patientId", patient.getId());
                 intent.putExtra("unit",unit);
+                intent.putExtra("email",email);
                 context.startActivity(intent);
             }
         });
@@ -63,6 +66,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
                 Intent intent = new Intent(context, MedicalRecordActivity.class);
                 intent.putExtra("patientId", patient.getId());
                 intent.putExtra("unit",unit);
+                intent.putExtra("email",email);
                 context.startActivity(intent);
             }
         });

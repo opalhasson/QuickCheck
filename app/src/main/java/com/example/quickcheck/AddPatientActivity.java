@@ -179,6 +179,5 @@ public class AddPatientActivity extends AppCompatActivity {
                     Log.e(TAG, "Error adding patient: " + e.getMessage());
                 });
     }
-
 }
 

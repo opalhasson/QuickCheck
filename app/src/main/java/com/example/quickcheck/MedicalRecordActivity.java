@@ -1,6 +1,7 @@
 package com.example.quickcheck;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -8,10 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MedicalRecordActivity extends Activity {
     private TextView patient_name_text;
@@ -28,6 +33,8 @@ public class MedicalRecordActivity extends Activity {
     private FirebaseFirestore db;
     private String unit;
     private String patientId;
+    private String email;
+    private Boolean inArch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class MedicalRecordActivity extends Activity {
         // Get the patient ID and Unit from the intent
         patientId = getIntent().getStringExtra("patientId");
         unit = getIntent().getStringExtra("unit");
+        email = getIntent().getStringExtra("email");
 
         setTransferSpinner();
         setPatient();
@@ -49,19 +57,18 @@ public class MedicalRecordActivity extends Activity {
         transfer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                transferPatient();
+                if (inArch)
+                    saveMedicalRecord();
             }
         });
 
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                saveMedicalRecord();
             }
         });
-
-
-
     }
 
     public void initViews() {
@@ -126,11 +133,82 @@ public class MedicalRecordActivity extends Activity {
                             height_field.setText(String.valueOf(medicalRecord.getPatientHeight()));
                         blood_pressure_field.setText(medicalRecord.getPatientBloodPressure());
                         if (medicalRecord.getPatientHeight() != 0)
-                            temperature_field.setText(String.valueOf(medicalRecord.getPatientHeight()));
+                            temperature_field.setText(String.valueOf(medicalRecord.getPatientTemperature()));
                         health_status_text.setText(medicalRecord.getHealthStatus());
                         doctor_opinion_text.setText(medicalRecord.getDoctorOpinion());
                     }
                 });
+    }
 
+    public void transferPatient() {
+        String transfer = transfer_spinner.getSelectedItem().toString();
+        if (!transfer.equals("Transfer...")) {
+            if (!transfer.equals("Home")) {
+                MedicalRecord medicalRecord = new MedicalRecord(patientId, transfer);
+                CollectionReference medicalrecordsCollection = db.collection("medicalRecords");
+                medicalrecordsCollection.add(medicalRecord);
+            }
+            inArch = true;
+        }
+        else {
+            inArch = false;
+            Toast.makeText(MedicalRecordActivity.this, "Transfer to where?... choose.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void saveMedicalRecord() {
+        CollectionReference medicalRecordsCollection = db.collection("medicalRecords");
+
+        medicalRecordsCollection
+                    .whereEqualTo("patientId", patientId)
+                    .whereEqualTo("unit", unit)
+                    .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            String documentId = documentSnapshot.getId();
+
+                            // Create a map to hold the updated field values
+                            Map<String, Object> updates = new HashMap<>();
+
+                            String weightText = weight_field.getText().toString().trim();
+                            if (!weightText.isEmpty()) {
+                                int weight = Integer.parseInt(weightText);
+                                updates.put("patientWeight", weight);
+                            }
+
+                            String heightText = height_field.getText().toString().trim();
+                            if (!heightText.isEmpty()) {
+                                int height = Integer.parseInt(heightText);
+                                updates.put("patientHeight", height);
+                            }
+
+                            updates.put("patientBloodPressure", blood_pressure_field.getText().toString());
+
+                            String temperatureText = temperature_field.getText().toString().trim();
+                            if (!temperatureText.isEmpty()) {
+                                int temperature = Integer.parseInt(temperatureText);
+                                updates.put("patientTemperature", temperature);
+                            }
+
+                            updates.put("healthStatus", health_status_text.getText().toString());
+                            updates.put("doctorOpinion", doctor_opinion_text.getText().toString());
+
+                            // Update the document with the new field values
+                            medicalRecordsCollection.document(documentId).update(updates)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(MedicalRecordActivity.this, "Medical record updated successfully.",
+                                                Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(MedicalRecordActivity.this, "Failed to update medical record.",
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    });
+
+        Intent intent = new Intent(this, PatientsScreenActivity.class);
+        intent.putExtra("email", email);
+        startActivity(intent);
     }
 }

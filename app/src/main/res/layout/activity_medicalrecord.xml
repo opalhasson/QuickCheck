@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Patient Name"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/id_text"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/patient_name_text"
         android:text="ID: 123456"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/measurements_heading"
@@ -145,7 +147,7 @@
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Patients"
+        android:text="Save and Back to Patients"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/transfer_layout"
         android:layout_marginTop="16dp" />
