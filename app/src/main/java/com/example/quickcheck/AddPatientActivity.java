@@ -15,11 +15,8 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -46,53 +43,13 @@ public class AddPatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addpatient);
 
-        dobField = findViewById(R.id.dob_field);
-        calendar = Calendar.getInstance();
-        addButton = findViewById(R.id.add_button);
-        genderSpinner = findViewById(R.id.gender_spinner);
-        firstnameField = findViewById(R.id.first_name_field);
-        lastnameField = findViewById(R.id.last_name_field);
-        idField = findViewById(R.id.id_field);
+        db = FirebaseFirestore.getInstance();
+        initViews();
 
+        unitname = getIntent().getStringExtra("unit");
         email = getIntent().getStringExtra("email");
-        if (email != null) {
-            // Get a reference to the Firebase Firestore database
-            db = FirebaseFirestore.getInstance();
 
-            // Assuming you have a collection called "patients" in your Firestore database
-            CollectionReference usersCollection = db.collection("users");
-
-            // Perform the query to get the user document with the specified email
-            usersCollection.whereEqualTo("email", email)
-                    .get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        // Check if the query result contains any documents
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            // Get the first document (assuming unique emails) from the query result
-                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-
-                            // Retrieve the user object from the document snapshot
-                            User user = documentSnapshot.toObject(User.class);
-
-                            unitname = user.getUnit();
-
-                        } else {
-                            // No user found with the specified email
-                            Toast.makeText(AddPatientActivity.this, "User not found.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // Error occurred while querying for the user
-                        Log.e(TAG, "Error founding user: " + e.getMessage());
-                    });
-        }
-
-        // Set options for gender spinner
-        String[] genderOptions = {"Choose your gender","Male", "Female", "Other"};
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genderOptions);
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderSpinner.setAdapter(genderAdapter);
+        setGenderSpinner();
 
         dobField.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +64,16 @@ public class AddPatientActivity extends AppCompatActivity {
                 addPatient();
             }
         });
+    }
+
+    public void initViews() {
+        dobField = findViewById(R.id.dob_field);
+        calendar = Calendar.getInstance();
+        addButton = findViewById(R.id.add_button);
+        genderSpinner = findViewById(R.id.gender_spinner);
+        firstnameField = findViewById(R.id.first_name_field);
+        lastnameField = findViewById(R.id.last_name_field);
+        idField = findViewById(R.id.id_field);
     }
 
     private void showDatePicker() {
@@ -162,6 +129,13 @@ public class AddPatientActivity extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         dobField.setText(sdf.format(calendar.getTime()));
+    }
+
+    public void setGenderSpinner() {
+        String[] genderOptions = {"Choose your gender","Male", "Female", "Other"};
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genderOptions);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
     }
 
     private void addPatient() {

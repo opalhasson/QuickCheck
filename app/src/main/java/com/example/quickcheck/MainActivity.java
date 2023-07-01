@@ -24,17 +24,16 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText passwordField;
     private EditText emailField;
+    private Button loginButton;
+    private Button signupButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        passwordField = findViewById(R.id.password_field);
-        emailField = findViewById(R.id.email_field);
+        initViews();
 
-        Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,13 +43,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button signupButton = findViewById(R.id.signup_button);
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToSignupActivity();
             }
         });
+    }
+
+    public void initViews() {
+        mAuth = FirebaseAuth.getInstance();
+        passwordField = findViewById(R.id.password_field);
+        emailField = findViewById(R.id.email_field);
+        loginButton = findViewById(R.id.login_button);
+        signupButton = findViewById(R.id.signup_button);
     }
 
     private void signInWithPassword(String email, String password) {

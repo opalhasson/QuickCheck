@@ -12,11 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.app.Activity;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,36 +32,40 @@ public class SignupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // Initialize views
+        initViews();
+        setDegreeSpinner();
+        setUnitSpinner();
+
+        signButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUp();
+            }
+        });
+    }
+
+    public void initViews() {
         nameField = findViewById(R.id.name_field);
         degreeSpinner = findViewById(R.id.degree_spinner);
         unitSpinner = findViewById(R.id.unit_spinner);
         emailField = findViewById(R.id.email_field);
         passwordField = findViewById(R.id.password_field);
         signButton = findViewById(R.id.sign_button);
+    }
 
-        // Set options for degree spinner
+    public void setDegreeSpinner() {
         String[] degreeOptions = {"Choose your title", "Mr", "Ms", "Dr", "Prof"};
         ArrayAdapter<String> degreeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, degreeOptions);
         degreeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         degreeSpinner.setAdapter(degreeAdapter);
+    }
 
-        // Set options for unit spinner
+    public void setUnitSpinner() {
         String[] unitOptions = {"Choose your unit", "emergency department", "burn unit", "Urology", "Neurology"};
         ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, unitOptions);
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitAdapter);
-
-        // Set click listener for sign button
-        signButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Perform sign-up logic here
-                signUp();
-            }
-        });
     }
-
 
     private void signUp() {
         // Get user input from the fields
