@@ -132,8 +132,7 @@ public class MedicalRecordActivity extends Activity {
                         if (medicalRecord.getPatientHeight() != 0)
                             height_field.setText(String.valueOf(medicalRecord.getPatientHeight()));
                         blood_pressure_field.setText(medicalRecord.getPatientBloodPressure());
-                        if (medicalRecord.getPatientHeight() != 0)
-                            temperature_field.setText(String.valueOf(medicalRecord.getPatientTemperature()));
+                        temperature_field.setText(medicalRecord.getPatientTemperature());
                         health_status_text.setText(medicalRecord.getHealthStatus());
                         doctor_opinion_text.setText(medicalRecord.getDoctorOpinion());
                     }
@@ -184,15 +183,10 @@ public class MedicalRecordActivity extends Activity {
                             }
 
                             updates.put("patientBloodPressure", blood_pressure_field.getText().toString());
-
-                            String temperatureText = temperature_field.getText().toString().trim();
-                            if (!temperatureText.isEmpty()) {
-                                int temperature = Integer.parseInt(temperatureText);
-                                updates.put("patientTemperature", temperature);
-                            }
-
+                            updates.put("patientTemperature", temperature_field.getText().toString());
                             updates.put("healthStatus", health_status_text.getText().toString());
                             updates.put("doctorOpinion", doctor_opinion_text.getText().toString());
+                            updates.put("inArch",inArch);
 
                             // Update the document with the new field values
                             medicalRecordsCollection.document(documentId).update(updates)

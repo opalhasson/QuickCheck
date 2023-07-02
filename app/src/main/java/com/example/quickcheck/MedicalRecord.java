@@ -5,7 +5,7 @@ public class MedicalRecord {
     private int patientWeight;
     private int patientHeight;
     private String patientBloodPressure;
-    private Double patientTemperature;
+    private String patientTemperature;
     private String healthStatus;
     private String doctorOpinion;
     private Boolean inArch;
@@ -20,10 +20,12 @@ public class MedicalRecord {
         this.patientBloodPressure = "";
         this.healthStatus = "";
         this.doctorOpinion = "";
+        this.patientWeight = this.patientHeight = 0;
+        this.patientTemperature = "";
     }
 
     public MedicalRecord(String patientId, int patientWeight, int patientHeight, String patientBloodPressure,
-                         Double patientTemperature, String healthStatus, String doctorOpinion, Boolean inArch, String unit) {
+                         String patientTemperature, String healthStatus, String doctorOpinion, Boolean inArch, String unit) {
         this.patientId = patientId;
         this.patientWeight = patientWeight;
         this.patientHeight = patientHeight;
@@ -67,11 +69,11 @@ public class MedicalRecord {
         this.patientBloodPressure = patientBloodPressure;
     }
 
-    public Double getPatientTemperature() {
+    public String getPatientTemperature() {
         return patientTemperature;
     }
 
-    public void setPatientTemperature(Double patientTemperature) {
+    public void setPatientTemperature(String patientTemperature) {
         this.patientTemperature = patientTemperature;
     }
 
