@@ -43,6 +43,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/my_light_primary"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:background="@drawable/button_background"
             android:text="Patients in the Unit" />
 
         <Button
@@ -50,7 +54,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/my_light_primary"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:background="@drawable/button_background"
             android:text="Past Patients" />
+
 
     </LinearLayout>
 
