@@ -2,6 +2,10 @@ package com.example.quickcheck;
 
 import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +42,7 @@ public class AddPatientActivity extends AppCompatActivity {
     private String unitname;
     private String email;
     private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,10 @@ public class AddPatientActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
     public void initViews() {
         dobField = findViewById(R.id.dob_field);

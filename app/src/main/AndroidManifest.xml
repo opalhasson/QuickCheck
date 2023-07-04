@@ -13,8 +13,9 @@
         android:theme="@style/Theme.QuickCheck"
         tools:targetApi="31">
 
+        <!-- Add the Splash Activity as the launcher activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Define the other activities in your app -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
 
         <activity
             android:name=".AddPatientActivity"
