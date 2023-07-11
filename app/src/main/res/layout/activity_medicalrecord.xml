@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Patient Name"
         android:textSize="20sp"
+        android:textColor="@color/my_light_primary"
         android:textStyle="bold"/>
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_below="@id/patient_name_text"
         android:text="ID: 123456"
         android:textSize="18sp"
+        android:textColor="@color/my_light_primary"
         android:textStyle="bold"/>
 
     <TextView

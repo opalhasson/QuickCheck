@@ -45,6 +45,8 @@ public class MedicalRecordActivity extends Activity {
 
         initViews();
 
+        inArch = false;
+
         // Get the patient ID and Unit from the intent
         patientId = getIntent().getStringExtra("patientId");
         unit = getIntent().getStringExtra("unit");
