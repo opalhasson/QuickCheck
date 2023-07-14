@@ -36,7 +36,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patientsscreen);
+        setContentView(R.layout.activity_patients_screen);
 
         db = FirebaseFirestore.getInstance();
 

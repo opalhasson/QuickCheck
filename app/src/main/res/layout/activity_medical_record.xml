@@ -6,22 +6,43 @@
     android:padding="16dp"
     tools:context=".MedicalRecordActivity">
 
+    <LinearLayout
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
     <TextView
         android:id="@+id/patient_name_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Patient Name"
         android:textSize="20sp"
         android:textColor="@color/my_light_primary"
         android:textStyle="bold"/>
 
+
     <TextView
         android:id="@+id/id_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/patient_name_text"
+        android:layout_weight="1"
         android:text="ID: 123456"
         android:textSize="18sp"
+        android:textColor="@color/my_light_primary"
+        android:textStyle="bold"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/patient_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Female, 12/02/1960 (51 yo)"
+        android:layout_below="@id/info_layout"
+        android:textSize="16sp"
         android:textColor="@color/my_light_primary"
         android:textStyle="bold"/>
 
@@ -29,7 +50,7 @@
         android:id="@+id/measurements_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/id_text"
+        android:layout_below="@id/patient_info_text"
         android:text="Measurements"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -151,9 +172,13 @@
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save and Back to Patients"
+        android:text="SAVE AND BACK TO PATIENTS"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/transfer_layout"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/button_background" />
 
 </RelativeLayout>

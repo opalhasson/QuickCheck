@@ -2,10 +2,6 @@ package com.example.quickcheck;
 
 import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,7 +42,7 @@ public class AddPatientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addpatient);
+        setContentView(R.layout.activity_add_patient);
 
         db = FirebaseFirestore.getInstance();
         initViews();
@@ -72,10 +67,6 @@ public class AddPatientActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     public void initViews() {
         dobField = findViewById(R.id.dob_field);
         calendar = Calendar.getInstance();
@@ -98,7 +89,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
         monthPicker.setMinValue(1);
         monthPicker.setMaxValue(12);
-        monthPicker.setValue(calendar.get(Calendar.MONTH)); // Month is zero-based
+        monthPicker.setValue(calendar.get(Calendar.MONTH) + 1);
 
         int currentYear = calendar.get(Calendar.YEAR);
         yearPicker.setMinValue(currentYear - 100);
@@ -136,8 +127,17 @@ public class AddPatientActivity extends AppCompatActivity {
     }
 
     private void updateDobField() {
+        int day = dayPicker.getValue();
+        int month = monthPicker.getValue();
+        int year = yearPicker.getValue();
+
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.YEAR, year);
+
         dobField.setText(sdf.format(calendar.getTime()));
     }
 
@@ -148,30 +148,25 @@ public class AddPatientActivity extends AppCompatActivity {
         genderSpinner.setAdapter(genderAdapter);
     }
 
-    private void addPatient() {
-        // Retrieve the input values from the UI fields
+    public void addPatient() {
         String firstname = firstnameField.getText().toString();
         String lastname = lastnameField.getText().toString();
         String id = idField.getText().toString();
         String dob = dobField.getText().toString();
         String gender = genderSpinner.getSelectedItem().toString();
 
-        // Validate the input fields
         if (firstname.isEmpty() || lastname.isEmpty() || id.isEmpty() ||
                 dob.isEmpty() || gender.equals("Choose your gender")) {
             return;
         }
 
-        // Create a Patient object
         Patient patient = new Patient(firstname, lastname, id, dob, gender);
 
-        // Assuming you have a collection called "patients" in your Firestore database
         CollectionReference patientsCollection = db.collection("patients");
 
         // Add the patient to the "patients" collection
         patientsCollection.add(patient)
                 .addOnSuccessListener(documentReference -> {
-                    // Patient added successfully, creating medical record for patient
                     MedicalRecord medicalRecord = new MedicalRecord(id, unitname);
                     CollectionReference medicalrecordsCollection = db.collection("medicalRecords");
 
@@ -185,7 +180,6 @@ public class AddPatientActivity extends AppCompatActivity {
                     startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
-                    // Error occurred while adding the patient
                     Log.e(TAG, "Error adding patient: " + e.getMessage());
                 });
     }

@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +25,7 @@ import java.util.Map;
 public class MedicalRecordActivity extends Activity {
     private TextView patient_name_text;
     private TextView id_text;
+    private TextView patient_info;
     private EditText weight_field;
     private EditText height_field;
     private EditText blood_pressure_field;
@@ -39,7 +44,7 @@ public class MedicalRecordActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicalrecord);
+        setContentView(R.layout.activity_medical_record);
 
         db = FirebaseFirestore.getInstance();
 
@@ -85,6 +90,7 @@ public class MedicalRecordActivity extends Activity {
         transfer_spinner = findViewById(R.id.transfer_spinner);
         transfer_button = findViewById(R.id.transfer_button);
         back_button = findViewById(R.id.back_button);
+        patient_info = findViewById(R.id.patient_info_text);
     }
 
     public void setTransferSpinner() {
@@ -111,6 +117,7 @@ public class MedicalRecordActivity extends Activity {
 
                         patient_name_text.setText(patient.getFirstname() + " " + patient.getLastname());
                         id_text.setText(patient.getId());
+                        patient_info.setText(patient.getGender() + ", " + patient.getDob() + " (" + calculateAge(patient.getDob()) + " yo)");
                     }
                 });
 
@@ -206,5 +213,12 @@ public class MedicalRecordActivity extends Activity {
         Intent intent = new Intent(this, PatientsScreenActivity.class);
         intent.putExtra("email", email);
         startActivity(intent);
+    }
+
+    public static int calculateAge(String dateOfBirth) {
+        LocalDate birthDate = LocalDate.parse(dateOfBirth, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+        Period age = Period.between(birthDate, currentDate);
+        return age.getYears();
     }
 }

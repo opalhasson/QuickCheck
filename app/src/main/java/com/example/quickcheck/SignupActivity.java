@@ -67,7 +67,7 @@ public class SignupActivity extends Activity {
         unitSpinner.setAdapter(unitAdapter);
     }
 
-    private void signUp() {
+    public void signUp() {
         // Get user input from the fields
         String name = nameField.getText().toString();
         String degree = degreeSpinner.getSelectedItem().toString();

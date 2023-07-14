@@ -3,10 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
+    android:padding="16dp"
     tools:context=".SignupActivity">
 
     <TextView
@@ -65,10 +62,13 @@
         android:id="@+id/sign_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup"
+        android:text="SIGNUP"
         android:layout_below="@id/password_field"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:onClick="signUp"/>
+        android:textColor="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/button_background" />
 
 </RelativeLayout>
