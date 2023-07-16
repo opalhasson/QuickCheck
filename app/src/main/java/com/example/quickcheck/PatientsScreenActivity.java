@@ -1,15 +1,11 @@
 package com.example.quickcheck;
 
 import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -89,7 +85,6 @@ public class PatientsScreenActivity extends AppCompatActivity {
     }
 
     public void setUserInfoByEmail() {
-        // Assuming you have a collection called "patients" in your Firestore database
         CollectionReference usersCollection = db.collection("users");
 
         // Perform the query to get the user document with the specified email
@@ -122,9 +117,7 @@ public class PatientsScreenActivity extends AppCompatActivity {
         CollectionReference patientsCollection = db.collection("patients");
         CollectionReference medicalRecordsCollection = db.collection("medicalRecords");
 
-        // Perform the query to get all patients from the collection
         patientsCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            // Create a new ArrayList to hold the retrieved patients
             ArrayList<Patient> patients = new ArrayList<>();
 
             // Iterate through the query results and convert each document to a Patient object
@@ -151,7 +144,6 @@ public class PatientsScreenActivity extends AppCompatActivity {
             patientsList.setAdapter(patientAdapter);
 
         }).addOnFailureListener(e -> {
-            // Error occurred while querying for patients
             Log.e(TAG, "Error retrieving patients: " + e.getMessage());
         });
     }

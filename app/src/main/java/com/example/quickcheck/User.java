@@ -6,7 +6,6 @@ public class User {
     private String degree;
     private String unit;
 
-    // Required default constructor for Firebase
     public User() {}
 
     public User(String email, String name, String degree, String unit) {
@@ -16,7 +15,6 @@ public class User {
         this.unit = unit;
     }
 
-    // Getters and setters for the class variables
     public String getName() {
         return name;
     }

@@ -50,7 +50,6 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         patientNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the MedicalRecordActivity and pass the patient's ID
                 Intent intent = new Intent(context, MedicalRecordActivity.class);
                 intent.putExtra("patientId", patient.getId());
                 intent.putExtra("unit",unit);
@@ -62,7 +61,6 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         patientIdTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the MedicalRecordActivity and pass the patient's ID
                 Intent intent = new Intent(context, MedicalRecordActivity.class);
                 intent.putExtra("patientId", patient.getId());
                 intent.putExtra("unit",unit);

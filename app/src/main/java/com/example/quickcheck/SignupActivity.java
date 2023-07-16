@@ -1,7 +1,6 @@
 package com.example.quickcheck;
 
 import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,7 +87,6 @@ public class SignupActivity extends Activity {
                             // Get a reference to the Firebase Firestore database
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                            // Assuming you have a collection called "users" in your Firestore database
                             CollectionReference usersCollection = db.collection("users");
 
                             // Add the user to the "users" collection

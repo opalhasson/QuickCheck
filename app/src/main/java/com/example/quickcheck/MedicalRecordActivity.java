@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +50,7 @@ public class MedicalRecordActivity extends Activity {
 
         inArch = false;
 
-        // Get the patient ID and Unit from the intent
+        // Get the patient ID, email and Unit from the intent
         patientId = getIntent().getStringExtra("patientId");
         unit = getIntent().getStringExtra("unit");
         email = getIntent().getStringExtra("email");
